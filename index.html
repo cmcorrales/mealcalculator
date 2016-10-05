@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+</body>
+<script src="http://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function(){
+  var diner = function(name){
+    this.name = name;
+    this.dishes = [];
+    this.addDish = function(dish){
+      this.dishes.push(dish);
+    }
+    console.log("new diner created: "+name)
+  }
+  var Kay = new diner('Kay');
+  var Sonny = new diner('Sonny');
+  var Michael = new diner('Michael');
+  var dish = function(name, price){
+    this.name = name;
+    this.price = price;
+    console.log("dish name: "+ name+ " price: "+price)
+  }
+var spaghetti = new dish('spaghetti', 12.99);
+var pizza = new dish('pizza', 15.99);
+var risotto = new dish('risotta', 14.99);
+var garlicBread = new dish('garlic bread', 4.99);
+var mozzarellaSticks = new dish('mozzarella sticks', 8.99);
+var stuffedMushrooms = new dish('stuffed mushrooms', 8.99);
+var meal = function(){
+  this.diners = [];
+  this.addDiner = function(diner){
+    this.diners.push(diner)
+    console.log("meal created: "+diner.name)
+  }
+}
+var eat = new meal();
+eat.addDiner(Kay);
+eat.addDiner(Sonny);
+eat.addDiner(Michael);
+Kay.addDish(spaghetti);
+Kay.addDish(garlicBread);
+Sonny.addDish(pizza);
+Sonny.addDish(mozzarellaSticks);
+Michael.addDish(risotto);
+Michael.addDish(stuffedMushrooms);
+meal.prototype.calculateTotal = function(){
+  var totalAmount = 0;
+  for(var i=0; i<this.diners.length; i++) {
+    var currentDinerTotal = 0;
+    for(var x=0; x<this.diners[i].dishes.length; x++) {
+      totalAmount += this.diners[i].dishes[x].price;
+      currentDinerTotal += this.diners[i].dishes[x].price;
+    }
+    this.diners[i].individualAmount = currentDinerTotal;
+  }
+  return totalAmount;
+}
+console.log(eat.calculateTotal());
+var subTotal = Math.round(eat.calculateTotal());
+var mealTax = .089;
+var mealTip = 0.18;
+var totalBill = ((mealTax + 1) * (subTotal)).toFixed(2);
+var billTip = ((mealTip + 1) * totalBill).toFixed(2);
+console.log('final bill with tax: '+totalBill);
+console.log('final bill with tax and tip: '+billTip);
+/*var calculateIndividualTotal = function(){
+  var individualTotal = ((mealTax + 1) * this.individualAmount)) + ((mealTip + 1) * (this.individualAmount))
+  for(var i=0; i<this.diners.length; i++) {
+    individualTotal += (mealTax)(this.diners[i].individualAmount)
+*/
+console.log('Kay Subtotal: '+ Kay.individualAmount)
+console.log('Kay Total (with Tax & Tip): '+ ((mealTax * Kay.individualAmount) + (mealTip * Kay.individualAmount)+ Kay.individualAmount).toFixed(2))
+console.log('Michael Subtotal: '+ Michael.individualAmount)
+console.log('Michael Total (with Tax & Tip): '+ ((mealTax * Michael.individualAmount) + (mealTip * Michael.individualAmount)+ Michael.individualAmount).toFixed(2))
+console.log('Sonny Subtotal: '+ Sonny.individualAmount)
+console.log('Sonny Total (with Tax & Tip): '+ ((mealTax * Sonny.individualAmount) + (mealTip * Sonny.individualAmount)+ Sonny.individualAmount).toFixed(2))
+})
+console.log('')
+</script>
+</html>
